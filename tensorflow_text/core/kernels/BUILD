@@ -1147,6 +1147,32 @@ cc_test(
     ],
 )
 
+cc_library(
+    name = "phrase_tokenizer_kernel_template",
+    hdrs = ["phrase_tokenizer_kernel_template.h"],
+    deps = [
+        ":phrase_tokenizer",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/strings",
+        # lite/kernels/shim:op_kernel tensorflow dep,
+        # lite/kernels/shim:status_macros tensorflow dep,
+    ],
+)
+
+tf_cc_library(
+    name = "phrase_tokenizer_kernel",
+    srcs = ["phrase_tokenizer_kernel.cc"],
+    hdrs = ["phrase_tokenizer_kernel.h"],
+    tf_deps = [
+        # tf:framework tensorflow dep,
+    ],
+    deps = [
+        ":phrase_tokenizer_kernel_template",
+        # lite/kernels/shim:op_kernel tensorflow dep,
+        # lite/kernels/shim:tf_op_shim tensorflow dep,
+    ],
+)
+
 tf_cc_library(
     name = "wordpiece_kernel",
     srcs = ["wordpiece_kernel.cc"],
